@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mohamed3042.github.io/flagship-portfolio-v2/sitemap-index.xml

@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>One person, three AI tools — scene</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Cairo:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --space-1:#03030a; --space-2:#070713;
+  --ink:#f5f5f7; --ink-2:#a1a1a6; --ink-3:#82838b;
+  --glass-bg:rgba(255,255,255,.05); --glass-brd:rgba(255,255,255,.12);
+  --neb-blue:rgba(162,89,255,.16); --neb-violet:rgba(255,94,138,.16);
+  --accA:#a259ff; --accB:#ff5e8a;
+  --t-cowork:#a259ff; --t-design:#ff7eb6; --t-code:#ff5e8a;
+  --ease-expo:cubic-bezier(.16,1,.3,1);
+  --ease-quint:cubic-bezier(.83,0,.17,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--space-2); color:var(--ink); overflow-x:clip;
+  font-family:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility}
+[dir=rtl] body{font-family:"Cairo","Inter",system-ui,sans-serif}
+.mono{font-family:"JetBrains Mono",ui-monospace,monospace}
+
+.bg{position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(120% 80% at 80% -10%, var(--neb-violet), transparent 60%),
+    radial-gradient(120% 80% at 10% 20%, var(--neb-blue), transparent 55%),
+    linear-gradient(180deg, var(--space-1), var(--space-2))}
+.bg-acc{position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.4; transition:opacity .6s var(--ease-expo);
+  background:radial-gradient(66% 50% at 50% 56%, color-mix(in oklab,var(--accA) 22%,transparent), transparent 70%)}
+#stars{position:fixed; inset:0; z-index:0; pointer-events:none}
+
+.rail{position:fixed; top:0; left:0; right:0; height:2px; z-index:6}
+.rail i{display:block; height:100%; width:0%; background:linear-gradient(90deg,var(--accA),var(--accB)); box-shadow:0 0 14px color-mix(in oklab,var(--accB) 60%,transparent)}
+[dir=rtl] .rail{transform:scaleX(-1)}
+
+.hint{position:fixed; left:50%; bottom:18px; transform:translateX(-50%); z-index:6; display:flex; flex-direction:column; align-items:center; gap:7px; color:var(--ink-3); font-size:11px; letter-spacing:.18em; text-transform:uppercase; transition:opacity .5s}
+.hint .m{width:22px; height:34px; border:1.5px solid rgba(255,255,255,.28); border-radius:12px; position:relative}
+.hint .m::after{content:""; position:absolute; left:50%; top:6px; width:3px; height:7px; border-radius:3px; background:var(--ink-2); transform:translateX(-50%); animation:wheel 1.8s var(--ease-expo) infinite}
+@keyframes wheel{0%{opacity:0;transform:translate(-50%,0)}30%{opacity:1}70%{opacity:1}100%{opacity:0;transform:translate(-50%,10px)}}
+
+.track{position:relative; z-index:1; height:700vh}
+.stage{position:sticky; top:0; height:100svh; height:100vh; width:100%; overflow:hidden}
+.layer{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; will-change:transform,opacity; padding:clamp(16px,3.4vh,40px) clamp(20px,5vw,64px)}
+.wrap{width:100%; max-width:980px; margin:0 auto}
+.col{display:flex; flex-direction:column; align-items:center; text-align:center}
+
+.kicker{font-family:"JetBrains Mono",monospace; font-size:clamp(10px,2.6vw,13px); letter-spacing:.22em; text-transform:uppercase; color:var(--accB); margin-bottom:14px}
+[dir=rtl] .kicker{letter-spacing:.06em}
+.title{font-weight:800; letter-spacing:-.03em; line-height:1.04; font-size:clamp(32px,8vw,72px)}
+[dir=rtl] .title{letter-spacing:0; line-height:1.2}
+.title em{font-style:normal; background:linear-gradient(120deg,var(--accA),var(--accB)); -webkit-background-clip:text; background-clip:text; color:transparent}
+.lead{color:var(--ink-2); font-size:clamp(14px,3.4vw,19px); line-height:1.55; max-width:50ch; margin-top:18px}
+[dir=rtl] .lead{line-height:1.7}
+.beat{font-family:"JetBrains Mono",monospace; font-size:clamp(11px,2.6vw,13px); letter-spacing:.14em; text-transform:uppercase; color:var(--accB)}
+[dir=rtl] .beat{letter-spacing:.04em}
+.beat-d{color:var(--ink-2); font-size:clamp(13px,3vw,16px); line-height:1.5; max-width:46ch; margin-top:9px; text-wrap:pretty}
+.beat-d b{color:var(--ink); font-weight:600}
+.hero-num{font-weight:900; letter-spacing:-.03em; line-height:.92; font-size:clamp(56px,15vw,134px); font-variant-numeric:tabular-nums;
+  background:linear-gradient(120deg,var(--accA),var(--accB)); -webkit-background-clip:text; background-clip:text; color:transparent; filter:drop-shadow(0 0 40px color-mix(in oklab,var(--accB) 26%,transparent))}
+.hero-unit{font-weight:700; font-size:clamp(15px,4vw,30px); color:var(--ink-2)}
+
+.grid{display:grid; grid-template-columns:repeat(2,1fr); gap:12px; width:min(700px,92vw); margin-top:18px}
+@media(min-width:680px){.grid{grid-template-columns:repeat(4,1fr)}}
+.cell{padding:16px; border-radius:16px; text-align:center; background:var(--glass-bg); border:1px solid var(--glass-brd)}
+.cell .n{font-weight:900; font-size:clamp(24px,6vw,40px); letter-spacing:-.03em; font-variant-numeric:tabular-nums; background:linear-gradient(120deg,var(--accA),var(--accB)); -webkit-background-clip:text; background-clip:text; color:transparent}
+.cell .c{font-size:11px; color:var(--ink-2); margin-top:6px; line-height:1.35}
+.tools{display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-top:14px; max-width:780px}
+.chip{font-family:"JetBrains Mono",monospace; font-size:11px; letter-spacing:.03em; color:var(--ink-2); padding:6px 11px; border-radius:999px; background:rgba(255,255,255,.04); border:1px solid var(--glass-brd)}
+.note{font-size:clamp(12.5px,3vw,15px); color:var(--ink-2); line-height:1.55; max-width:56ch; margin:16px auto 0; text-align:center}
+.note b{color:var(--ink); font-weight:700}
+.badge{display:inline-flex; align-items:center; gap:8px; font-family:"JetBrains Mono",monospace; font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink); padding:8px 14px; border-radius:999px; background:rgba(255,255,255,.04); border:1px solid var(--glass-brd)}
+.badge .live{width:8px; height:8px; border-radius:50%; background:var(--accB); box-shadow:0 0 12px var(--accB); animation:pulse 2.4s var(--ease-expo) infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* orchestration diagram */
+.orch{position:relative; width:min(560px,92vw); height:clamp(330px,52vh,460px); margin-top:14px}
+.owires{position:absolute; inset:0; width:100%; height:100%; overflow:visible}
+.node{position:absolute; transform:translate(-50%,-50%); display:flex; flex-direction:column; align-items:center; gap:8px; z-index:2; will-change:transform,opacity}
+.node .nb{border-radius:15px; display:grid; place-items:center; background:rgba(13,14,22,.78); border:1px solid var(--glass-brd); -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px); transition:border-color .4s,box-shadow .4s; position:relative}
+.node.ctrl .nb{width:clamp(78px,17vw,104px); height:clamp(78px,17vw,104px); border-radius:50%; border-color:color-mix(in oklab,var(--accA) 55%,transparent); box-shadow:0 0 40px color-mix(in oklab,var(--accA) 30%,transparent)}
+.node.tool .nb{width:clamp(60px,13vw,82px); height:clamp(60px,13vw,82px)}
+.node.tool.on .nb{border-color:var(--tc); box-shadow:0 0 30px color-mix(in oklab,var(--tc) 40%,transparent)}
+.node .em{font-size:clamp(19px,4.6vw,26px); line-height:1}
+.node .nl{font-family:"JetBrains Mono",monospace; font-size:clamp(9.5px,2.3vw,11.5px); letter-spacing:.04em; color:var(--ink-2); text-align:center; white-space:nowrap}
+.node .nr{font-size:9px; font-family:"JetBrains Mono",monospace; letter-spacing:.05em; color:var(--ink-3)}
+.node.ctrl .nl{color:var(--ink); font-weight:700; font-size:clamp(10.5px,2.5vw,12.5px)}
+.brief{position:absolute; padding:3px 7px; border-radius:6px; font-family:"JetBrains Mono",monospace; font-size:9px; letter-spacing:.02em; white-space:nowrap; transform:translate(-50%,-50%); opacity:0; will-change:transform,opacity; z-index:3;
+  background:rgba(13,14,22,.92); border:1px solid var(--bc); color:var(--bc)}
+.pulse-dot{position:absolute; width:7px; height:7px; border-radius:50%; transform:translate(-50%,-50%); opacity:0; z-index:1; will-change:transform,opacity}
+
+/* funnel */
+.funnel3{display:flex; flex-direction:column; align-items:center; gap:clamp(8px,1.6vh,12px); width:min(560px,92vw); margin-top:8px}
+.fstage{border-radius:13px; padding:clamp(11px,2vw,16px); text-align:center; will-change:transform,opacity; border:1px solid var(--glass-brd); background:color-mix(in oklab,var(--accA) 9%,transparent)}
+.fstage.win{border-color:color-mix(in oklab,var(--accB) 55%,transparent); background:color-mix(in oklab,var(--accB) 14%,transparent); box-shadow:0 0 36px color-mix(in oklab,var(--accB) 22%,transparent)}
+.fstage .fn{font-weight:900; font-size:clamp(26px,7vw,46px); letter-spacing:-.03em; font-variant-numeric:tabular-nums; line-height:1; background:linear-gradient(120deg,var(--accA),var(--accB)); -webkit-background-clip:text; background-clip:text; color:transparent}
+.fstage .fl{font-family:"JetBrains Mono",monospace; font-size:clamp(9.5px,2.2vw,11.5px); letter-spacing:.06em; text-transform:uppercase; color:var(--ink-2); margin-top:6px}
+[dir=rtl] .fstage .fl{letter-spacing:.02em}
+.farrow{color:var(--accB); font-size:18px; line-height:.4; opacity:.6}
+
+@keyframes rise{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+#L-hero .kicker{animation:rise .7s var(--ease-expo) both .08s}
+#L-hero .title{animation:rise .85s var(--ease-expo) both .18s}
+#L-hero .lead{animation:rise .85s var(--ease-expo) both .34s}
+@media (prefers-reduced-motion: reduce){ .hint{display:none} #L-hero .kicker,#L-hero .title,#L-hero .lead{animation:none} }
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="bg-acc" id="bgacc"></div>
+<canvas id="stars"></canvas>
+<div class="rail"><i id="rail"></i></div>
+
+<main class="track" id="track">
+  <div class="stage" id="stage">
+
+    <!-- HERO -->
+    <div class="layer" id="L-hero">
+      <div class="wrap col">
+        <div class="kicker" data-ar="نموذج تشغيل بالذكاء الاصطناعي">AI Operating Model</div>
+        <h1 class="title" data-ar="شخصٌ واحد.<br><em>ثلاث أدوات ذكاء.</em>">One person.<br><em>Three AI tools.</em></h1>
+        <p class="lead" data-ar="منظومة تُطلق المواقع وأنقذت مناقصاتٍ ضائعة — والإنسان هو المُتحكِّم.">A workflow that ships sites and recovered lost tenders — with the human in control.</p>
+      </div>
+    </div>
+
+    <!-- ORCHESTRATION -->
+    <div class="layer" id="L-orch">
+      <div class="wrap col">
+        <div class="beat" id="orchbeat" data-ar="أنا المُتحكِّم">I'm the controller</div>
+        <p class="beat-d" id="orchdesc" data-ar="أنا و«كووورك» نحفظ الذاكرة ونكتب الموجزات ونتحقّق — كل تسليمٍ موجزٌ معنون جاهز للّصق، فلا يُعاد العمل ولا يضيع السياق.">Me + Cowork hold the memory, write the briefs, and verify — every handoff is a labelled, <b>ready-to-paste brief.</b></p>
+        <div class="orch" id="orch">
+          <svg class="owires" id="owires" viewBox="0 0 100 100" preserveAspectRatio="none"></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- FUNNEL -->
+    <div class="layer" id="L-funnel">
+      <div class="wrap col">
+        <div class="beat" data-ar="المكسب الذي التقطه">The win it caught</div>
+        <p class="beat-d" data-ar="وجّهتُ النظام إلى ٦ أشهر من البريد، وفصلتُ طلبات العروض الحقيقية عن ضجيج المورّدين، ورتّبتُها بالموعد النهائي، وصُغتُ ردًّا لكلٍّ منها." style="margin-bottom:8px">I pointed it at <b>6 months of email</b>, separated genuine RFQs from supplier noise, ranked by deadline, and drafted a reply for each.</p>
+        <div class="funnel3" id="funnel3"></div>
+      </div>
+    </div>
+
+    <!-- REST -->
+    <div class="layer" id="L-rest">
+      <div class="wrap col">
+        <div class="kicker" data-ar="ثلاث أدوات · شخصٌ واحد">Three tools · one person</div>
+        <div style="display:flex; align-items:baseline; gap:14px; justify-content:center">
+          <div class="hero-num"><span id="heronum">23</span></div>
+          <div class="hero-unit" data-ar="مناقصة مُجمَّعة">tenders</div>
+        </div>
+        <div class="hero-unit" data-ar="٤ صفقات حيّة مُستردّة" style="font-size:clamp(13px,3.2vw,18px); margin-top:6px; color:var(--accB)"><b id="sub-recov">4</b> live deals recovered</div>
+        <div class="grid" id="grid"></div>
+        <p class="note" data-ar="تُنفّذ أدوات الذكاء الاصطناعي تحت إدارتي — صمّمتُ النموذج وكتبتُ الموجزات ووضعتُ قواعد عدم التلفيق واتخذتُ كل قرار. لم يُقَس الوقت أو المال المُوفَّر، لذا لا أدّعيه؛ المناقصات الأربع المُستردّة هي المكسب الملموس والمُوثَّق.">The AI tools execute under my direction — I designed the model, wrote the briefs, set the <b>no-fabrication rules</b>, and made every decision. Time and money saved were never measured, so I don't claim them; the 4 recovered tenders are the concrete, sourced win.</p>
+        <div class="tools" id="tools"></div>
+        <div style="margin-top:18px"><span class="badge"><span class="live"></span><span data-ar="نموذج تشغيل حيّ · الإنسان يقود">Live operating model · human-led</span></span></div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<div class="hint" id="hint"><div class="m"></div><span data-ar="مرّر">Scroll</span></div>
+
+<script>
+/* ===== shared engine ===== */
+var RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+var LANG = (new URLSearchParams(location.search).get('lang')||'en').toLowerCase()==='ar'?'ar':'en';
+var RTL = LANG==='ar';
+if(RTL){document.documentElement.lang='ar'; document.documentElement.dir='rtl';}
+function clamp(v,a,b){return v<a?a:v>b?b:v;}
+function seg(p,a,b){return clamp((p-a)/(b-a),0,1);}
+function lerp(a,b,t){return a+(b-a)*t;}
+function easeExpo(t){return t>=1?1:1-Math.pow(2,-10*t);}
+function easeIO(t){return t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;}
+function fmt(n){return Math.round(n).toLocaleString(RTL?'ar-EG':'en-US');}
+function T(o){return RTL?o.ar:o.en;}
+if(RTL){document.querySelectorAll('[data-ar]').forEach(function(el){el.innerHTML=el.getAttribute('data-ar');});}
+(function(){
+  var c=document.getElementById('stars'), x=c.getContext('2d'), dpr=Math.min(devicePixelRatio||1,2), W,H,stars=[];
+  function size(){W=c.width=innerWidth*dpr; H=c.height=innerHeight*dpr; c.style.width=innerWidth+'px'; c.style.height=innerHeight+'px';}
+  function make(){stars=[]; var n=Math.round(clamp(innerWidth*innerHeight/9000,70,150));
+    for(var i=0;i<n;i++){stars.push({x:Math.random()*W,y:Math.random()*H,r:(Math.random()*1.1+.3)*dpr,o:Math.random()*.55+.3,tw:Math.random()*6.28,sp:Math.random()*.6+.18,d:Math.random()*.8+.2});}}
+  size(); make(); addEventListener('resize',function(){size();make();}); window.__starP=0;
+  function draw(t){x.clearRect(0,0,W,H);
+    for(var i=0;i<stars.length;i++){var s=stars[i]; var tw=RM?1:(.6+.4*Math.sin(t*0.001*s.sp+s.tw));
+      var py=(s.y-window.__starP*44*dpr*s.d)%H; if(py<0)py+=H; x.globalAlpha=s.o*tw; x.fillStyle='#fff'; x.beginPath(); x.arc(s.x,py,s.r,0,6.283); x.fill();}
+    x.globalAlpha=1; if(typeof ambient==='function') ambient(t); requestAnimationFrame(draw);}
+  requestAnimationFrame(draw);
+})();
+var rail=document.getElementById('rail'), bgacc=document.getElementById('bgacc'), hint=document.getElementById('hint');
+var P=0, ticking=false, hinted=false;
+function getP(){var t=document.getElementById('track'); var max=t.offsetHeight-innerHeight; return max>0?clamp((scrollY||pageYOffset)/max,0,1):0;}
+function onScroll(){ if(!ticking){ticking=true; requestAnimationFrame(function(){P=getP(); render(P); ticking=false;});}
+  if(!hinted&&(scrollY||0)>40){hinted=true; if(hint)hint.style.opacity=0;} }
+addEventListener('scroll',onScroll,{passive:true});
+addEventListener('resize',function(){if(typeof layout==='function')layout(); P=getP(); render(P);});
+function render(p){window.__starP=p; rail.style.width=(p*100).toFixed(2)+'%'; if(bgacc)bgacc.style.opacity=(0.3+0.4*Math.sin(p*Math.PI)).toFixed(3); scene(p);}
+/* ===== three-ai-tools scene ===== */
+var SVGNS='http://www.w3.org/2000/svg';
+var Lhero=document.getElementById('L-hero'),Lorch=document.getElementById('L-orch'),
+    Lfunnel=document.getElementById('L-funnel'),Lrest=document.getElementById('L-rest');
+var orch=document.getElementById('orch'), owires=document.getElementById('owires');
+var orchbeat=document.getElementById('orchbeat'), orchdesc=document.getElementById('orchdesc');
+
+/* nodes: controller center + 3 tools in arc */
+var CTRL={x:50,y:30};
+var TOOLS=[
+ {x:17,y:74,c:'var(--t-cowork)',ic:'🧠',en:'Cowork',ar:'كووورك',role:['memory · briefs','الذاكرة · الموجزات'],bc:'var(--t-cowork)',brief:['brief →','موجز ←']},
+ {x:50,y:82,c:'var(--t-design)',ic:'🎨',en:'Claude Design',ar:'Claude Design',role:['the look','الشكل'],bc:'var(--t-design)',brief:['design brief →','موجز تصميم ←']},
+ {x:83,y:74,c:'var(--t-code)',ic:'⌗',en:'Claude Code',ar:'Claude Code',role:['build · git · deploy','بناء · git · نشر'],bc:'var(--t-code)',brief:['build brief →','موجز بناء ←']}
+];
+/* beats text (4) */
+var BEATS=[
+ {h:['I\u2019m the controller','أنا المُتحكِّم'], d:['Me + Cowork hold the memory, write the briefs, and verify — every handoff is a labelled, <b>ready-to-paste brief.</b>','أنا و«كووورك» نحفظ الذاكرة ونكتب الموجزات ونتحقّق — كل تسليمٍ موجزٌ معنون <b>جاهز للّصق.</b>']},
+ {h:['Claude Design — the look','Claude Design — الشكل'], d:['One AI tool owns the look, only. <b>Direction in, design out.</b>','أداةٌ واحدة تملك الشكل فقط. <b>التوجيه يدخل، التصميم يخرج.</b>']},
+ {h:['Claude Code — ship it','Claude Code — أطلقه'], d:['A second tool turns the brief into shipped code — <b>build · git · deploy.</b> It\u2019s how this very site is built.','أداةٌ ثانية تُحوّل الموجز إلى كودٍ مشحون — <b>بناء · git · نشر.</b> وهكذا يُبنى هذا الموقع.']},
+ {h:['One orchestration loop','حلقة تنسيقٍ واحدة'], d:['Briefs flow out, finished work flows back. <b>Nothing is redone; no context is lost.</b>','الموجزات تخرج والعمل المُنجز يعود. <b>لا تكرار، ولا فقدان للسياق.</b>']}
+];
+
+/* build wires */
+var WIRE=[];
+TOOLS.forEach(function(t){
+  var ln=document.createElementNS(SVGNS,'line');
+  ln.setAttribute('x1',CTRL.x); ln.setAttribute('y1',CTRL.y); ln.setAttribute('x2',t.x); ln.setAttribute('y2',t.y);
+  ln.setAttribute('stroke',t.c); ln.setAttribute('stroke-width','0.5'); ln.setAttribute('vector-effect','non-scaling-stroke');
+  ln.setAttribute('stroke-dasharray','3 2'); ln.style.opacity=0; owires.appendChild(ln); WIRE.push(ln);
+});
+/* build nodes */
+function mkNode(cls,o){var n=document.createElement('div'); n.className='node '+cls; n.style.left=o.x+'%'; n.style.top=o.y+'%';
+  return n;}
+var ctrlNode=mkNode('ctrl',CTRL);
+ctrlNode.innerHTML='<div class="nb"><span class="em">🧑\u200d✈️</span></div><div class="nl">'+T({en:'You — controller',ar:'أنت — المُتحكِّم'})+'</div>';
+orch.appendChild(ctrlNode);
+var TNODE=[], BRIEF=[], RET=[];
+TOOLS.forEach(function(t){
+  var n=mkNode('tool',t); n.style.setProperty('--tc',t.c);
+  n.innerHTML='<div class="nb"><span class="em">'+t.ic+'</span></div><div class="nl" style="color:'+t.c+'">'+T(t)+'</div><div class="nr">'+T({en:t.role[0],ar:t.role[1]})+'</div>';
+  orch.appendChild(n); TNODE.push(n);
+  var b=document.createElement('div'); b.className='brief'; b.style.setProperty('--bc',t.bc); b.textContent=T({en:t.brief[0],ar:t.brief[1]}); orch.appendChild(b); BRIEF.push(b);
+  var r=document.createElement('div'); r.className='pulse-dot'; r.style.background=t.c; r.style.boxShadow='0 0 10px '+t.c; orch.appendChild(r); RET.push(r);
+});
+
+/* funnel */
+var FUN=[{v:23,en:'RFQs consolidated',ar:'طلب عرض مُجمَّع',w:100,win:false},{v:23,en:'reply drafts written',ar:'مسودة رد مكتوبة',w:72,win:false},{v:4,en:'live tenders recovered',ar:'مناقصة حيّة مُستردّة',w:34,win:true}];
+var funEl=document.getElementById('funnel3'), FEL=[];
+FUN.forEach(function(f,i){
+  if(i>0){var ar=document.createElement('div'); ar.className='farrow'; ar.textContent='▾'; funEl.appendChild(ar);}
+  var s=document.createElement('div'); s.className='fstage'+(f.win?' win':''); s.style.width=f.w+'%';
+  s.innerHTML='<div class="fn">0</div><div class="fl">'+T(f)+'</div>'; funEl.appendChild(s);
+  FEL.push({el:s, num:s.querySelector('.fn'), v:f.v});
+});
+
+/* rest grid + tools */
+var CELLS=[{v:23,pre:'',en:'RFQs consolidated',ar:'طلب عرض مُجمَّع'},{v:4,pre:'',en:'Live tenders recovered',ar:'مناقصة حيّة مُستردّة'},{v:3,pre:'',en:'Automations on schedule',ar:'أتمتة مجدولة'},{v:23,pre:'~',en:'Website commits shipped',ar:'دفعة موقع مشحونة'}];
+var gridEl=document.getElementById('grid');
+CELLS.forEach(function(c){var d=document.createElement('div'); d.className='cell'; d.innerHTML='<div class="n">0</div><div class="c">'+T(c)+'</div>'; gridEl.appendChild(d);});
+var GN=[].slice.call(gridEl.querySelectorAll('.n'));
+var TOOLSL=['Cowork','Claude Code','Claude Design','Scheduled tasks','Python','openpyxl','Astro','Vercel','Gmail','Drive','WhatsApp Web'];
+var toolsEl=document.getElementById('tools');
+TOOLSL.forEach(function(t){var c=document.createElement('span'); c.className='chip'; c.textContent=t; toolsEl.appendChild(c);});
+var heronum=document.getElementById('heronum');
+
+function lay(el,a,b,c,d){var inn=easeIO(seg(P,a,b)),out=easeIO(seg(P,c,d)),o=inn*(1-out);
+  el.style.opacity=o.toFixed(3); el.style.transform='translateY('+(((1-easeExpo(seg(P,a,b)))*30)-(out*30)).toFixed(1)+'px)';
+  el.style.pointerEvents=o>.6?'auto':'none'; return o;}
+function setNum(el,t,e,pre){el.textContent=(pre||'')+fmt(t*e);}
+function pct(node,x,y){node.style.left=x+'%'; node.style.top=y+'%';}
+
+var curBeat=-1;
+function setBeat(i){ if(i===curBeat) return; curBeat=i; var b=BEATS[i];
+  orchbeat.innerHTML=T({en:b.h[0],ar:b.h[1]}); orchdesc.innerHTML=T({en:b.d[0],ar:b.d[1]}); }
+
+function scene(p){
+  /* hero */
+  var hOut=easeIO(seg(p,.12,.20));
+  Lhero.style.opacity=(1-hOut).toFixed(3); Lhero.style.transform='translateY('+(-hOut*34).toFixed(1)+'px)'; Lhero.style.pointerEvents=hOut<.5?'auto':'none';
+
+  /* orchestration */
+  var oo=lay(Lorch,.16,.24,.56,.62);
+  var ctrlIn=easeExpo(seg(p,.17,.24));
+  ctrlNode.style.opacity=ctrlIn.toFixed(2); ctrlNode.style.transform='translate(-50%,-50%) scale('+lerp(.6,1,ctrlIn).toFixed(3)+')';
+  /* phase per tool: cowork .26-.36, design .36-.46, code .46-.55 */
+  var phs=[seg(p,.26,.37),seg(p,.36,.47),seg(p,.46,.55)];
+  /* beat text */
+  var bi = p<.30?0 : p<.40?1 : p<.50?2 : 3; setBeat(bi);
+  TOOLS.forEach(function(t,i){
+    var ph=phs[i], appear=easeExpo(clamp(ph*2.2,0,1));
+    TNODE[i].style.opacity=appear.toFixed(2); TNODE[i].style.transform='translate(-50%,-50%) scale('+lerp(.6,1,appear).toFixed(3)+')';
+    TNODE[i].classList.toggle('on', ph>0.25 && oo>.3);
+    WIRE[i].style.opacity=(appear*0.6).toFixed(2);
+    /* outbound brief: travels ctrl->tool during ph 0.1..0.6 */
+    var bt=clamp((ph-0.1)/0.5,0,1), be=easeIO(bt);
+    var bx=lerp(CTRL.x,t.x,be), by=lerp(CTRL.y,t.y,be);
+    pct(BRIEF[i],bx,by); BRIEF[i].style.opacity=(ph>0.08 && ph<0.72 ? clamp(Math.min(bt*4,(1-bt)*4),0,1) : 0).toFixed(2);
+    /* return work: tool->ctrl during ph 0.62..1 */
+    var rt=clamp((ph-0.62)/0.38,0,1), re=easeIO(rt);
+    var rx=lerp(t.x,CTRL.x,re), ry=lerp(t.y,CTRL.y,re);
+    pct(RET[i],rx,ry); RET[i].style.opacity=(ph>0.6 && ph<0.99 ? clamp(Math.min(rt*5,(1-rt)*5),0,1) : 0).toFixed(2);
+    RET[i].style.transform='translate(-50%,-50%) scale('+lerp(1,1.6,re).toFixed(2)+')';
+  });
+
+  /* funnel */
+  lay(Lfunnel,.58,.66,.80,.85);
+  FEL.forEach(function(f,i){var e=easeIO(seg(p,.62+i*.05,.76+i*.05)); setNum(f.num,f.v,e,'');
+    f.el.style.opacity=(0.4+0.6*easeExpo(seg(p,.60+i*.05,.69+i*.05))).toFixed(2);
+    if(f.el.classList.contains('win')){f.el.style.transform='scale('+lerp(.96,1,easeIO(seg(p,.74,.84))).toFixed(3)+')';}});
+
+  /* rest */
+  lay(Lrest,.86,.95,1.2,1.3);
+  var gp=easeIO(seg(p,.86,.96));
+  setNum(heronum,23,gp,'');
+  GN.forEach(function(n,i){setNum(n,CELLS[i].v,clamp((gp-i*0.012)/(1-0.036),0,1),CELLS[i].pre);});
+}
+
+function staticEnd(){
+  document.getElementById('track').style.height='100vh';
+  [Lhero,Lorch,Lfunnel].forEach(function(l){l.style.display='none';});
+  Lrest.style.opacity=1; Lrest.style.transform='none';
+  setNum(heronum,23,1,''); GN.forEach(function(n,i){setNum(n,CELLS[i].v,1,CELLS[i].pre);});
+}
+if(RM){staticEnd();} else {render(0);}
+</script>
+</body>
+</html>
