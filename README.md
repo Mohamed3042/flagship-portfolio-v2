@@ -1,6 +1,6 @@
 # flagship-portfolio-v2
 
-The **Deep Field** landing, published as a second GitHub Pages project site:
+The **DARB / Deep Field Round 5** landing, published as a second GitHub Pages project site:
 
 <https://mohamed3042.github.io/flagship-portfolio-v2/>
 
@@ -28,4 +28,6 @@ second copy would be 1.7 GB of duplicated media for no new page.
 
 Everything else the site serves — both language routes, all 80 pages, the
 archive, the work pages, the fonts, the images, the CV — is here, and this
-tree is 30 MB.
+tree is 33.6 MiB.
+
+Round 5 source implementation: `1220e24`, branch `feature/deep-field`. All 1,968 browser checks pass. The four game films are edge-star holograms; raw game footage is not published. Four owner character illustrations remain pending.
